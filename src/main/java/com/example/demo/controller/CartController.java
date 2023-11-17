@@ -29,16 +29,16 @@ public class CartController {
 
 
 
-//    @GetMapping("")
-//    public String index(Model model){
-//        List<CartRespone> list = cartService.findByCustomer();
-//        long tong = 0;
-//        for (CartRespone cart: list
-//             ) {
-//            tong+=cart.getTotal();
-//        }
-//        model.addAttribute("listCart", list);
-//        model.addAttribute("tong", convertUtil.moneyToStringFormat(tong));
-//        return "views/cart/cart";
-//    }
+    @GetMapping("")
+    public String index(Model model){
+        List<CartRespone> list = cartService.findByCustomer();
+        long tong = 0;
+        for (CartRespone cart: list
+             ) {
+            tong+=cart.getTotal();
+        }
+        model.addAttribute("listCart", list);
+        model.addAttribute("tong", convertUtil.moneyToStringFormat(tong));
+        return "views/cart/cart";
+    }
 }
