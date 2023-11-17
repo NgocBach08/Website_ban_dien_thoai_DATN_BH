@@ -55,6 +55,8 @@ public class OrdersServiceImpl implements OrderService {
                     long millis=System.currentTimeMillis();
                     java.sql.Date date=new java.sql.Date(millis);
                     VoucherEntity voucherEntity = voucherRepo.findByDeleteFlagIsFalseAndCode(date,request.getVoucherCode());
+                    voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
+                    voucherRepo.save(voucherEntity);
                     ordersEntity.setVoucherEntity(voucherEntity);
                 }
                 ordersEntity.setCustomerEntity(customerEntity);
@@ -80,7 +82,7 @@ public class OrdersServiceImpl implements OrderService {
                     ordersDetailEntity.setPrice(cart.getIdProduct().getPricePromotion() == 0 ? cart.getIdProduct().getPrice()
                             : cart.getIdProduct().getPricePromotion());
                     ordersDetailRepo.save(ordersDetailEntity);
-                    cartRepo.delete(cart);
+//                    cartRepo.delete(cart);
                     //productPropertyRepo.save(propertyEntity);
                 }
             return "ok";
@@ -100,6 +102,8 @@ public class OrdersServiceImpl implements OrderService {
                 long millis=System.currentTimeMillis();
                 java.sql.Date date=new java.sql.Date(millis);
                 VoucherEntity voucherEntity = voucherRepo.findByDeleteFlagIsFalseAndCode(date,request.getVoucherCode());
+                voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
+                voucherRepo.save(voucherEntity);
                 ordersEntity.setVoucherEntity(voucherEntity);
             }
 
@@ -126,7 +130,7 @@ public class OrdersServiceImpl implements OrderService {
                 ordersDetailEntity.setPrice(cart.getIdProduct().getPricePromotion() == 0 ? cart.getIdProduct().getPrice()
                         : cart.getIdProduct().getPricePromotion());
                 ordersDetailRepo.save(ordersDetailEntity);
-                cartRepo.delete(cart);
+//                cartRepo.delete(cart);
                 //productPropertyRepo.save(propertyEntity);
             }
             VPResponDto vpResponDto = gson.fromJson(VNPAYService.payments(ordersEntity1.getId(), Math.toIntExact(request.getTotalMoney()), Config.getRandomNumber(8), requesthttp), VPResponDto.class);

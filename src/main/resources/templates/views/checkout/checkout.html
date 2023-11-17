@@ -32,29 +32,29 @@
 <!-- checkout main wrapper start -->
 <div class="checkout-page-wrapper">
     <div class="container">
-<!--        <div class="row">-->
-<!--            <div class="col-12">-->
-<!--                &lt;!&ndash; Checkout Login Coupon Accordion Start &ndash;&gt;-->
-<!--                <div class="checkoutaccordion" id="checkOutAccordion">-->
-<!--                    <div class="card">-->
-<!--                        <h3>Bạn có mã giảm giá?<span data-toggle="collapse" data-target="#couponaccordion">Click để nhập mã giảm giá</span></h3>-->
-<!--                        <div id="couponaccordion" class="collapse" data-parent="#checkOutAccordion">-->
-<!--                            <div class="card-body">-->
-<!--                                <div class="cart-update-option">-->
-<!--                                    <div class="apply-coupon-wrapper">-->
-<!--                                        <form id="formVoucher" class=" d-block d-md-flex">-->
-<!--                                            <input id="voucherCode" type="text" placeholder="Enter Your Coupon Code" required />-->
-<!--                                            <button class="check-btn sqr-btn">Áp dụng mã giảm giá</button>-->
-<!--                                        </form>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; Checkout Login Coupon Accordion End &ndash;&gt;-->
-<!--            </div>-->
-<!--        </div>-->
+        <div class="row">
+            <div class="col-12">
+                <!-- Checkout Login Coupon Accordion Start -->
+                <div class="checkoutaccordion" id="checkOutAccordion">
+                    <div class="card">
+                        <h3>Bạn có mã giảm giá?<span data-toggle="collapse" data-target="#couponaccordion">Click để nhập mã giảm giá</span></h3>
+                        <div id="couponaccordion" class="collapse" data-parent="#checkOutAccordion">
+                            <div class="card-body">
+                                <div class="cart-update-option">
+                                    <div class="apply-coupon-wrapper">
+                                        <form id="formVoucher" class=" d-block d-md-flex">
+                                            <input id="voucherCode" type="text" placeholder="Enter Your Coupon Code" required />
+                                            <button class="check-btn sqr-btn">Áp dụng mã giảm giá</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checkout Login Coupon Accordion End -->
+            </div>
+        </div>
 
         <div class="row">
             <!-- Checkout Billing Details -->
@@ -184,6 +184,7 @@
 <input hidden id="totalOrder1" th:value="${tongPrice}">
 <input hidden id="priceOrderReal" th:value="${tongPrice}">
 <input hidden id="promotionCheck" th:value="${promotion}">
+<input hidden id="checkVoucher" value="1">
 <!-- product details wrapper end -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -215,6 +216,7 @@
                         toastWarning("Thông báo", "Bạn không đủ điều kiện để sử dụng mã này")
                     }
                 }else {
+                    document.getElementById("checkVoucher").value = "0";
                     toastSuccess("Thành công", "Áp mã sử dụng thành công");
                     let tong = document.getElementById("totalOrder1").value;
                     if(result.type === '%'){
@@ -235,7 +237,13 @@
                 }
             },
             error: function (error) {
+                document.getElementById("checkVoucher").value = "1";
+
                 toastDanger("Thất bại","Không có mã giảm giá này");
+                document.getElementById('priceOrderReal').value = 0;
+                let tong = document.getElementById("totalOrder1").value;
+                document.getElementById('voucherPrice').innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(0));
+                document.getElementById('totalOrder').innerText = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(tong) + Number(30000));
             }
         })
         e.preventDefault(); // Now nothing will happen
@@ -246,9 +254,16 @@
         //vnpay.open({width: 768, height: 600, url: x.data});
         let address = $('#street-address').val();
         let note = $('#ordernote').val();
+        let check = $('#checkVoucher').val();
         console.log(address);
+        console.log(check);
         console.log(note);
         let code = $('#voucherCode').val();
+        if (check == 1) {
+            code = null;
+        } else {
+            code = $('#voucherCode').val();
+        }
         if(address.length === 0){
             toastWarning("Thất bại", "Vui lòng nhập địa chỉ chi tiết");
             return;
@@ -257,7 +272,7 @@
         if(document.getElementById("cashon").checked){
             let req = {
                 "address" : address,
-                "voucherCode" : null,
+                "voucherCode" : code,
                 "status" : 0,
                 "note" : note,
                 "totalMoney" : $('#priceOrderReal').val(),
@@ -281,7 +296,7 @@
         }else {
             let req = {
                 "address" : address,
-                "voucherCode" : null,
+                "voucherCode" : code,
                 "status" : 0,
                 "note" : note,
                 "totalMoney" : $('#priceOrderReal').val(),

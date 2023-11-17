@@ -32,10 +32,10 @@ public class VoucherEntity extends BaseEntity {
     private String code;
     @Basic
     @Column(name = "QUANTITY")
-    private int quantity;
+    private Integer quantity;
     @Basic
     @Column(name = "DISCOUNT")
-    private long discount;
+    private Long discount;
     @Basic
     @Column(name = "START_DATE")
     private Date startDate;
