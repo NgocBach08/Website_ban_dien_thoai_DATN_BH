@@ -82,7 +82,7 @@ public class OrdersServiceImpl implements OrderService {
                     ordersDetailEntity.setPrice(cart.getIdProduct().getPricePromotion() == 0 ? cart.getIdProduct().getPrice()
                             : cart.getIdProduct().getPricePromotion());
                     ordersDetailRepo.save(ordersDetailEntity);
-//                    cartRepo.delete(cart);
+                    cartRepo.delete(cart);
                     //productPropertyRepo.save(propertyEntity);
                 }
             return "ok";

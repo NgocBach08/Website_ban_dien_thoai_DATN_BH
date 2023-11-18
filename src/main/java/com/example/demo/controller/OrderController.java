@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.respone.cart.CartRespone;
+import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CustomerEntity;
 import com.example.demo.entity.OrdersEntity;
+import com.example.demo.repo.CartRepo;
 import com.example.demo.repo.OrdersRepo;
 import com.example.demo.service.CartService;
 import com.example.demo.service.CustomerService;
@@ -39,6 +41,7 @@ public class OrderController {
 
     private final CustomerService customerService;
     private final OrdersRepo ordersRepo;
+    private final CartRepo cartRepo;
     @GetMapping("success")
     public String success(HttpServletRequest request){
         System.out.println(request.getContextPath());
@@ -48,6 +51,12 @@ public class OrderController {
             String id = request.getParameter("vnp_OrderInfo");
             Optional<OrdersEntity> o = ordersRepo.findById(Long.valueOf(id));
             o.get().setStatus("0");
+            if (o.get().getCustomerEntity() != null && o.get().getCustomerEntity().getId() != null) {
+                List<CartEntity> list = cartRepo.findByDeleteFlagIsFalseAndIdCustomer(o.get().getCustomerEntity().getId());
+                if (list != null && !list.isEmpty()) {
+                    cartRepo.deleteAll(list);
+                }
+            }
             ordersRepo.save(o.get());
         }
         return "redirect:/home/index";
