@@ -46,7 +46,7 @@ public class IVoucherServiceImpl implements VoucherService {
         VoucherRespone respone = new VoucherRespone();
         long millis=System.currentTimeMillis();
         java.sql.Date date=new java.sql.Date(millis);
-        VoucherEntity entity = repo.findByDeleteFlagIsFalseAndCode(date,code);
+        VoucherEntity entity = repo.findByDeleteFlagIsFalseAndCode(date, date,code);
         if(entity == null){
             return null;
         }
