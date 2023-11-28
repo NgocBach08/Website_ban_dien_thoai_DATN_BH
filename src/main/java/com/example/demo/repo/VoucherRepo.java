@@ -18,6 +18,6 @@ public interface VoucherRepo extends JpaRepository<VoucherEntity, String> {
 
     VoucherEntity getByIdAndDeleteFlagIsFalse(String id);
 
-    @Query("select o from VoucherEntity o where o.endDate >= ?1 and o.startDate >= ?2 and o.code = ?3 and o.status = 'ON' and o.deleteFlag = false ")
+    @Query("select o from VoucherEntity o where o.endDate >= ?1 and o.startDate <= ?2 and o.code = ?3 and o.status = 'ON' and o.deleteFlag = false ")
     VoucherEntity findByDeleteFlagIsFalseAndCode(Date date, Date data, String code);
 }
