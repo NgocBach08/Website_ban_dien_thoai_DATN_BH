@@ -4,8 +4,10 @@ import com.example.demo.dto.respone.cart.CartRespone;
 import com.example.demo.entity.CartEntity;
 import com.example.demo.entity.CustomerEntity;
 import com.example.demo.entity.OrdersEntity;
+import com.example.demo.entity.VoucherEntity;
 import com.example.demo.repo.CartRepo;
 import com.example.demo.repo.OrdersRepo;
+import com.example.demo.repo.VoucherRepo;
 import com.example.demo.service.CartService;
 import com.example.demo.service.CustomerService;
 import com.example.demo.util.ConvertUtil;
@@ -42,6 +44,7 @@ public class OrderController {
     private final CustomerService customerService;
     private final OrdersRepo ordersRepo;
     private final CartRepo cartRepo;
+    private final VoucherRepo voucherRepo;
     @GetMapping("success")
     public String success(HttpServletRequest request){
         System.out.println(request.getContextPath());
@@ -56,6 +59,11 @@ public class OrderController {
                 if (list != null && !list.isEmpty()) {
                     cartRepo.deleteAll(list);
                 }
+            }
+            if(o.get().getVoucherEntity() != null){
+                VoucherEntity voucherEntity = o.get().getVoucherEntity();
+                voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
+                voucherRepo.save(voucherEntity);
             }
             ordersRepo.save(o.get());
         }

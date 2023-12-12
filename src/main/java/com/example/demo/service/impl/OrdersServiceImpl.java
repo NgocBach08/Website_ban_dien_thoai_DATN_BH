@@ -55,7 +55,7 @@ public class OrdersServiceImpl implements OrderService {
                     long millis=System.currentTimeMillis();
                     java.sql.Date date=new java.sql.Date(millis);
                     VoucherEntity voucherEntity = voucherRepo.findByDeleteFlagIsFalseAndCode(date, date, request.getVoucherCode());
-                    voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
+                    //voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
                     voucherRepo.save(voucherEntity);
                     ordersEntity.setVoucherEntity(voucherEntity);
                 }
@@ -102,7 +102,7 @@ public class OrdersServiceImpl implements OrderService {
                 long millis=System.currentTimeMillis();
                 java.sql.Date date=new java.sql.Date(millis);
                 VoucherEntity voucherEntity = voucherRepo.findByDeleteFlagIsFalseAndCode(date, date,request.getVoucherCode());
-                voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
+//                voucherEntity.setQuantity(voucherEntity.getQuantity() - 1);
                 voucherRepo.save(voucherEntity);
                 ordersEntity.setVoucherEntity(voucherEntity);
             }
