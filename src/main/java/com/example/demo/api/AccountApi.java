@@ -30,10 +30,7 @@ public class AccountApi {
         log.info("login check");
         System.out.println("hihihi");
         CustomerEntity staff = staffService.findByEmail(email);
-        if (staff != null) {
-            System.out.println(staff.getId());
-            return ResponseEntity.status(HttpStatus.OK).body("OKE");
-        }
+
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sai tài khoản hoặc mật khẩu");
     }
 
