@@ -31,7 +31,7 @@ public class VNPAYService {
 //        String vnp_TxnRef1 = Config.getRandomNumber(8);
         String vnp_IpAddr = Config.getIpAddress(request);
         String vnp_TmnCode = Config.vnp_TmnCode;
-        int amount = SumMoney;
+        long amount = SumMoney * 100L;
 
         Map<String, String> vnp_Params = new HashMap<>();
         vnp_Params.put("vnp_Version", vnp_Version);
