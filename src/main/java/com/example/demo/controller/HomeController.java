@@ -78,4 +78,11 @@ public class HomeController {
         model.addAttribute("list", listIps);
         return "views/home/shop";
     }
+
+    @GetMapping("timkiem/{name}")
+    public String getName(Model model, @PathVariable("name") String id) {
+        List<NewProductRespone> listRandom = productService.findByName(id);
+        model.addAttribute("list", listRandom);
+        return "views/home/shop";
+    }
 }

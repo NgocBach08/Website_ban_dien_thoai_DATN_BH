@@ -36,4 +36,6 @@ public interface ProductRepo extends JpaRepository<ProductEntity, Long> {
 
     @Query("select o from ProductEntity o where o.deleteFlag = false and o.status = 'ON' order by o.name desc")
     List<ProductEntity> findByRandomTop20(Pageable pageable);
+
+
 }

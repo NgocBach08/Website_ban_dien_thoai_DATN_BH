@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -325,6 +326,21 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return listPro;
+    }
+
+    @Override
+    public List<NewProductRespone> getName(String name) {
+        List<ProductEntity> entities = productRepo.findByName(name);
+
+        List<NewProductRespone> list = new ArrayList<>();
+        for (ProductEntity e: entities
+        ) {
+
+
+        }
+
+        return list;
+
     }
 
     private ProductRespone mapToEntity(ProductEntity entity) {

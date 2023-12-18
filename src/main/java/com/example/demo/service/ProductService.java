@@ -29,4 +29,6 @@ public interface ProductService {
     List<NewProductRespone> findByName(String name);
 
     List<NewProductRespone> findbyRandom();
+
+    public List<NewProductRespone> getName(String name);
 }
